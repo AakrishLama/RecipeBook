@@ -9,6 +9,8 @@ app.get("/", (req, res)=>{
   res.send("Hello world")
 })
 
+app.use("/api",require("./Routes/CreateUser"));
+
 app.listen(port,()=>{
   console.log(`listening to port ${port}`)
 })
