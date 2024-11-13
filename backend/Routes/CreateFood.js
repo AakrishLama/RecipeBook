@@ -17,9 +17,9 @@ const storage = multer.diskStorage({
   }
 });
 const upload = multer({ storage: storage });
-         
+
 router.post("/createfood", upload.single("image"), async (req, res) => {
-  try {   
+  try {
     // Check if req.file exists
     if (!req.file) {
       return res.status(400).json({ success: false, message: 'Image file is required.' });
@@ -41,5 +41,13 @@ router.post("/createfood", upload.single("image"), async (req, res) => {
     res.status(500).json({ success: false, message: 'Internal Server Error', error: err.message });
   }
 });
+
+router.post("/getFood", async (req, res) => {
+  try {
+    res.send([global.cat, global.food])
+  } catch (error) {
+    console.error(error.message);
+  }
+})
 
 module.exports = router;
