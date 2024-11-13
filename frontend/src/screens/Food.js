@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '../component/Navbar'
+import axios from "axios";
+
 
 export default function Food() {
   const [foodName, setFoodName] = useState('');
@@ -27,6 +29,46 @@ export default function Food() {
     values.splice(index, 1);
     setIngredients(values);
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();  // Prevent page reload
+
+    // Initialize FormData and append each field to it
+    const formData = new FormData();
+    formData.append('name', foodName);
+    formData.append('categoryName', categoryName);
+    formData.append('shortDescription', shortDescription);
+    formData.append('description', description);
+    formData.append('image', image);
+
+    // Append each ingredient as JSON, because FormData doesn't handle nested arrays well
+    const ingredientsJson = JSON.stringify(ingredients);
+    formData.append('ingredients', ingredientsJson); // Add ingredients as JSON string
+
+    formData.forEach((element) => {
+      console.log(element);
+    })
+
+    try {
+      await axios.post("http://localhost:9000/api/createfood", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      console.log('Food item submitted successfully');
+      showAlert("food added succesfully"); // Show error alert if submission fails
+
+      // Clear the form
+      setFoodName("");
+      setCategoryName("");
+      setShortDescription("");
+      setDescription("");
+      setImage(null);
+      setOutPic(null);
+      setIngredients([{ name: "", quantity: "" }]);
+
+    } catch (error) {
+      console.error("Error submitting food item:", error);
+      showAlert("Error submitting food item"); // Show error alert if submission fails
+    }
+  };
 
   const handleImage = (e) => {
     const file = e.target.files[0]
@@ -38,12 +80,15 @@ export default function Food() {
       setOutPic(imageUrl);
     }
   }
+  const showAlert = (msg) => {
+    alert(msg);
+  }
 
 
   return (
     <div>
       <Navbar></Navbar>
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* Food Name */}
         <div className="form-group">
           <label>Food Name</label>
