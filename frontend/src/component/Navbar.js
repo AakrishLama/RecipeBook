@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
   return (
@@ -15,7 +16,7 @@ export default function Navbar() {
                 <a className="nav-link active fs-5" aria-current="page" to="/">Home</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link fs-5 " to="/createFood" >Add Food</a>
+                <Link className="nav-link fs-5 " to="/createFood" >Add Food</Link>
               </li>
             </ul>
             <div className="d-flex">
