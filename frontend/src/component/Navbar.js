@@ -20,8 +20,8 @@ export default function Navbar() {
               </li>
             </ul>
             <div className="d-flex">
-              <a className="btn bg-white text-success nav-link me-1" to="/Login">Log in</a>
-              <a className=" btn bg-white text-success nav-link me-1" to="/Signup">Sign up</a>
+              <Link className="btn bg-white text-success nav-link me-1" to="/Login">Log in</Link>
+              <Link className=" btn bg-white text-success nav-link me-1" to="/Signup">Sign up</Link>
             </div>
             <div className=" btn bg-white text-danger nav-link me-1" >
               Logout
