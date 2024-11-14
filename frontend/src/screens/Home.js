@@ -5,6 +5,8 @@ import sandwichImage from "../component/images/sandwich.png";
 import Navbar from '../component/Navbar'
 import Card from '../component/Card'
 import { useFood } from './FoodContext';
+import ViewFood from './ViewFood';
+import Modal from '../Modal.js';
 
 
 export default function Home() {
@@ -13,6 +15,7 @@ export default function Home() {
 
   return (
     <div>
+      <Modal isOpen={true}><ViewFood/></Modal>
       <Navbar></Navbar>
       <div>
         <div id="carouselExample" className="carousel slide"  >
