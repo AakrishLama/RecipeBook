@@ -17,4 +17,21 @@ router.post("/createuser", async (req, res) => {
 
   }
 })
+router.post("/loginUser", async (req, res) => {
+  let email = req.body.email
+  try {
+    let userData = await user.findOne({ email })
+    if (!userData) {
+      return res.status(400).json({ error: "try correct email" });
+    }
+    if (userData.password !== req.body.password) {
+      return res.status(400).json({ error: "try correct password" });
+    }
+    return res.status(200).json({ success: true, userData });
+  } catch (err) {
+    console.log(err)
+    res.json({ success: false })
+  }
+})
+
 module.exports = router;
