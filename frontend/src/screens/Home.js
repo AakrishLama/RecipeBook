@@ -1,31 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import charImage from '../component/images/char.png';
 import cofeImage from "../component/images/coffee.png";
 import sandwichImage from "../component/images/sandwich.png";
 import Navbar from '../component/Navbar'
 import Card from '../component/Card'
+import { useFood } from './FoodContext';
 
 
 export default function Home() {
-  const [foodCat, setFoodCat] = useState([]);
-  const [foodItem, setFoodItem] = useState([]);
-  const [search, setSearch] = useState("")
+  const { foodCat, foodItem } = useFood(); // Access food data from context
+  const [search, setSearch] = useState("");
 
-
-  const loadData = async () => {
-    let response = await fetch("http://localhost:9000/api/getFood", {
-      method: "POST",
-      headers: { "Content-Type": "multipart/form-data" }
-    });
-    response = await response.json();
-    // console.log(response[0], response[1])
-    setFoodCat(response[0]);
-    setFoodItem(response[1]);
-  }
-
-  useEffect(() => {
-    loadData();
-  }, []);
   return (
     <div>
       <Navbar></Navbar>

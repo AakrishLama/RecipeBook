@@ -7,19 +7,23 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Food from './screens/Food';
 import Signup from './screens/Signup';
 import Login from './screens/Login';
+import { FoodProvider } from './screens/FoodContext';
+
 
 
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/createFood" element={<Food />} />
-        <Route exact path="/Signup" element={<Signup />} />
-        <Route exact path="/Login" element={<Login />} />
-      </Routes>
-    </Router>
+    <FoodProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/createFood" element={<Food />} />
+          <Route exact path="/Signup" element={<Signup />} />
+          <Route exact path="/Login" element={<Login />} />
+        </Routes>
+      </Router>
+    </FoodProvider>
   )
 }
 

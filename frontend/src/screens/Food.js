@@ -88,65 +88,68 @@ export default function Food() {
   return (
     <div>
       <Navbar></Navbar>
-      <form onSubmit={handleSubmit}>
-        {/* Food Name */}
-        <div className="form-group">
-          <label>Food Name</label>
-          <input type="text" className="form-control" placeholder="Food name" value={foodName} onChange={(e) => setFoodName(e.target.value)} required />
-        </div>
+      <div className='container mt-4'>
 
-        {/* Category */}
-        <div className="form-group">
-          <label>Category</label>
-          <select className="form-control" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} required>
-            <option value="">Select category</option>
-            <option value="meat">Meat</option>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="lactosefri">Lactosfri</option>
-            <option value="glutonfri">Glutonfri</option>
-            <option value="vegan">Vegan</option>
-          </select>
-        </div>
+        <form onSubmit={handleSubmit}>
+          {/* Food Name */}
+          <div className="form-group">
+            <label>Food Name</label>
+            <input type="text" className="form-control" placeholder="Food name" value={foodName} onChange={(e) => setFoodName(e.target.value)} required />
+          </div>
 
-        {/* Ingredients */}
-        <div className="form-group">
-          <label>Ingredients</label>
-          {ingredients.map((ingredient, index) => (
-            <div key={index} className="ingredient-field">
-              <input type="text" className="form-control" placeholder="Ingredient name" name="name" value={ingredient.name} onChange={(event) => handleIngredientChange(index, event)} required />
-              <input type="text" className="form-control" placeholder="Quantity" name="quantity" value={ingredient.quantity} onChange={(event) => handleIngredientChange(index, event)} required />
-              {ingredients.length > 1 && (
-                <button type="button" onClick={() => removeIngredientField(index)}>
-                  Remove
-                </button>
-              )}
-            </div>
-          ))}
-          <button type="button" onClick={addIngredientField}>
-            Add Ingredient
+          {/* Category */}
+          <div className="form-group">
+            <label>Category</label>
+            <select className="form-control" value={categoryName} onChange={(e) => setCategoryName(e.target.value)} required>
+              <option value="">Select category</option>
+              <option value="meat">Meat</option>
+              <option value="vegetarian">Vegetarian</option>
+              <option value="lactosefri">Lactosfri</option>
+              <option value="glutonfri">Glutonfri</option>
+              <option value="vegan">Vegan</option>
+            </select>
+          </div>
+
+          {/* Ingredients */}
+          <div className="form-group">
+            <label>Ingredients</label>
+            {ingredients.map((ingredient, index) => (
+              <div key={index} className="ingredient-field">
+                <input type="text" className="form-control" placeholder="Ingredient name" name="name" value={ingredient.name} onChange={(event) => handleIngredientChange(index, event)} required />
+                <input type="text" className="form-control" placeholder="Quantity" name="quantity" value={ingredient.quantity} onChange={(event) => handleIngredientChange(index, event)} required />
+                {ingredients.length > 1 && (
+                  <button type="button" onClick={() => removeIngredientField(index)}>
+                    Remove
+                  </button>
+                )}
+              </div>
+            ))}
+            <button type="button" onClick={addIngredientField}>
+              Add Ingredient
+            </button>
+          </div>
+
+          {/* Short Description */}
+          <div className="form-group">
+            <label>Short Description</label>
+            <textarea className="form-control" rows="3" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} required ></textarea>
+          </div>
+
+          {/* Description */}
+          <div className="form-group">
+            <label>Methods / Description</label>
+            <textarea className="form-control" rows="3" value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
+          </div>
+          <div className="form-group">
+            <img src={outPic} style={{ height: "10rem", width: "10rem" }} alt="choose a file" ></img>
+            <input type="file" accept="image/jpeg, image/jpg, image/png" className="form-control-file" id="inputPic" onChange={handleImage} />
+          </div>
+          <hr></hr>
+          <button type="submit" className="btn btn-primary">
+            Submit
           </button>
-        </div>
-
-        {/* Short Description */}
-        <div className="form-group">
-          <label>Short Description</label>
-          <textarea className="form-control" rows="3" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} required ></textarea>
-        </div>
-
-        {/* Description */}
-        <div className="form-group">
-          <label>Methods / Description</label>
-          <textarea className="form-control" rows="3" value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
-        </div>
-        <div className="form-group">
-          <img src={outPic} style={{ height: "10rem", width: "10rem" }} alt="choose a file" ></img>
-          <input type="file" accept="image/jpeg, image/jpg, image/png" className="form-control-file" id="inputPic" onChange={handleImage} />
-        </div>
-        <hr></hr>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+        </form>
+      </div>
     </div>
   )
 }
