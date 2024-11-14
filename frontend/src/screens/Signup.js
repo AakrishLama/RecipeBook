@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import Navbar from '../component/Navbar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Signup() {
+  const navigate= useNavigate()
   const [credentials, setCredentials] = useState({ name: "", email: "", password: "", geoLocation: "" })
 
   const handleSubmit = async (e) => {
@@ -20,7 +21,7 @@ export default function Signup() {
     } else {
       alert("Sign up successfull")
       console.log(credentials)
-
+      navigate("/Login");
     }
   }
 
