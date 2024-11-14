@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../component/Navbar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({ email: "", password: "" })
 
-  const handleSubmit = (e) => {
-    console.log("submit")
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:9000/api/loginUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: credentials.email, password: credentials.password })
+    })
+    const json = await response.json()
+    console.log(json)
+    if (!json.success) {
+      alert("Enter valid credentials")
+    } else {
+      navigate("/");
+      localStorage.setItem("authToken", json.authToken);
+      console.log("local", localStorage.getItem("authToken"))
+      localStorage.setItem("admin", json.admin)
+      console.log("admin: ", localStorage.getItem("admin"))
+    }
+  }
+  const onChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value })
   }
   return (
     <div>
@@ -15,12 +36,12 @@ export default function Login() {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email address</label>
-            <input type="email" className="form-control" name="email" />
+            <input type="email" className="form-control" name="email" value={credentials.email} onChange={onChange} />
             <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="form-label">Password</label>
-            <input type="password" className="form-control" id="exampleInputPassword1" name="password" />
+            <input type="password" className="form-control" id="exampleInputPassword1" name="password" value={credentials.password} onChange={onChange} />
           </div>
           <button type="submit" className="m-3 btn btn-success">Submit</button>
           <Link to="/Signup" className="m-3 btn btn-danger"> Sign Up</Link>
