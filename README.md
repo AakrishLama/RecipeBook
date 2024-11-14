@@ -3,6 +3,8 @@ MERN Stack project to create a recipe  and save it to the mongoDB
 create react                          npm init
 npm install bootstrap-dark-5 axios
                                         npm i express nodemon mongoose multer
+                                        npm i bcryptjs jsonwebtoken express-validator
+
 
 
 CategoryName is created manually in mongodb to fetch it for check in baceknd.
