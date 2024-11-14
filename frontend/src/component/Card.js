@@ -27,7 +27,7 @@ export default function Card(props) {
         <div className="card-body">
           <h5 className="card-title">{props.foodName}</h5>
           <p className="card-text truncate-text" >{props.foodIntro} ** {props.foodImg} --------</p>
-          <button className="btn btn-primary" >View Details</button> {/* Call the onClick prop */}
+          <button onClick={props.onClick} className="btn btn-primary" >View Details</button> {/* Call the onClick prop */}
         </div>
       </div>
     </div>

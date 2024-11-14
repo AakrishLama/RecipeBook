@@ -12,10 +12,20 @@ import Modal from '../Modal.js';
 export default function Home() {
   const { foodCat, foodItem } = useFood(); // Access food data from context
   const [search, setSearch] = useState("");
+  const [selectedFood, setSelectedFood] = useState([]);
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false)
+
+
+
+  const handleCardClick = (food) => {
+    console.log(food)
+    setSelectedFood(food);
+    setIsOverlayOpen(true);
+  };
 
   return (
     <div>
-      <Modal isOpen={true}><ViewFood/></Modal>
+      <Modal isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(!isOverlayOpen)}><ViewFood select={selectedFood}></ViewFood></Modal>
       <Navbar></Navbar>
       <div>
         <div id="carouselExample" className="carousel slide"  >
@@ -55,7 +65,8 @@ export default function Home() {
               .map((filterItem) => {
                 return (
                   <div key={filterItem._id} className='col-12 col-md-6 col-lg-3'>
-                    <Card foodName={filterItem.name} foodIntro={filterItem.shortDescription} foodImg={filterItem.image} />
+                    <Card foodName={filterItem.name} foodIntro={filterItem.shortDescription} foodImg={filterItem.image}
+                      onClick={() => handleCardClick(filterItem)} />
                   </div>
                 )
               }) : ""}
