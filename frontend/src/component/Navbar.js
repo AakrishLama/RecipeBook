@@ -1,7 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 export default function Navbar() {
+
+  const Navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken")
+    localStorage.removeItem("admin")
+    Navigate("/")
+  }
   return (
     <div>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -15,15 +23,19 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link className="nav-link active fs-5" aria-current="page" to="/">Home</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link fs-5 " to="/createFood" >Add Food</Link>
-              </li>
+              {localStorage.getItem("authToken") ?
+                <li className="nav-item">
+                  <Link className="nav-link fs-5 " to="/createFood" >Add Food</Link>
+                </li>
+                : ""}
             </ul>
-            <div className="d-flex">
-              <Link className="btn bg-white text-success nav-link me-1" to="/Login">Log in</Link>
-              <Link className=" btn bg-white text-success nav-link me-1" to="/Signup">Sign up</Link>
-            </div>
-            <div className=" btn bg-white text-danger nav-link me-1" >
+            {!localStorage.getItem("authToken") ?
+              <div className="d-flex">
+                <Link className="btn bg-white text-success nav-link me-1" to="/Login">Log in</Link>
+                <Link className=" btn bg-white text-success nav-link me-1" to="/Signup">Sign up</Link>
+              </div>
+              : ""}
+            <div className=" btn bg-white text-danger nav-link me-1" onClick={handleLogout} >
               Logout
             </div>
 
