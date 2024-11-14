@@ -19,7 +19,7 @@ export default function Card(props) {
 
   //Ensure props.Img is passed correctly, and use it for the crop function
   const imagePath = crop(props.foodImg); // Use props.foodImg instead of props.Img
-  console.log('Cropped image path:', imagePath); // Log the final image path}    
+  // console.log('Cropped image path:', imagePath); // Log the final image path}    
   return (
     <div>
       <div className="card mt-3 mx-3" style={{ width: "18rem" }}>
