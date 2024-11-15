@@ -12,7 +12,10 @@ npm init
 - npm i bcryptjs jsonwebtoken express-validator
 
 A recipe web application which helps you create food recipe and view it in the home page.
-and the admin has the facility to update and delete the item from the mongo db. 
+The program also allows searching the food item by their name. The password of a user is 
+protectedin the mongoDb using bcrypt.
+
+The Admin (i.e user with password "aakrish") has the facility to update and delete the item from the mongo db. 
 
 CategoryName is created manually in mongodb to fetch it for check in baceknd.
   {
