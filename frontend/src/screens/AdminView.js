@@ -1,58 +1,84 @@
-import React , { useState } from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-export default function AdminView(props) {
 
+export default function AdminView(props, onclose) {
+
+  const navigate = useNavigate();
   const cropImgPath = (msg) => {
     if (typeof msg === 'string') {
-        // Handle "uploads/" path
-        if (msg.includes("../frontend/public/fotos/")) {
-            return msg.replace("../frontend/public/fotos/", "./fotos/");
-        }
+      // Handle "uploads/" path
+      if (msg.includes("../frontend/public/fotos/")) {
+        return msg.replace("../frontend/public/fotos/", "./fotos/");
+      }
     } else {
-        console.warn('msg is not a valid string:', msg); // Log a warning if msg is not valid
+      console.warn('msg is not a valid string:', msg); // Log a warning if msg is not valid
     }
     return '../pictures/example.png'; // Set a default image path
-};
-      // Ensure props.Img is passed correctly, and use it htmlFor the crop function
-      const imagePath = cropImgPath(props.select.image);
-      const [foodName, setFoodName] = useState(props.select.name); // State for the food name
-      const [foodCat, setFoodCat] = useState(props.select.categoryName);
-      const [foodSD, setFoodSD] = useState(props.select.shortDescription);
-      const [foodD, setFoodD] = useState(props.select.description);
-      // Initialize foodIngredients with the correct structure
-      const [foodIngredients, setFoodIngredients] = useState(props.select.ingredients);
-      const [foodImg, setFoodImg] = useState(imagePath)    /// state for image to be uploaded for update functionlaity.
-      const [outputURL, setOutputURL] = useState(imagePath)
+  };
+  // Ensure props.Img is passed correctly, and use it htmlFor the crop function
+  const imagePath = cropImgPath(props.select.image);
+  const [foodName, setFoodName] = useState(props.select.name); // State for the food name
+  const [foodCat, setFoodCat] = useState(props.select.categoryName);
+  const [foodSD, setFoodSD] = useState(props.select.shortDescription);
+  const [foodD, setFoodD] = useState(props.select.description);
+  // Initialize foodIngredients with the correct structure
+  const [foodIngredients, setFoodIngredients] = useState(props.select.ingredients);
+  const [foodImg, setFoodImg] = useState(imagePath)    /// state for image to be uploaded for update functionlaity.
+  const [outputURL, setOutputURL] = useState(imagePath)
 
-      const handleImage = (e) => {
-        const file = e.target.files[0];
-        setFoodImg(file)
-        if (file) {
-            const imageUrl = URL.createObjectURL(file); // Create a preview URL
-            console.log(imageUrl)
-            setOutputURL(imageUrl)
-        }
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setFoodImg(file)
+    if (file) {
+      const imageUrl = URL.createObjectURL(file); // Create a preview URL
+      console.log(imageUrl)
+      setOutputURL(imageUrl)
     }
-    const handleIngredientChange = (index, event) => {
-      const values = [...foodIngredients];
-      values[index][event.target.name] = event.target.value; // Use 'name' attribute to identify input
-      setFoodIngredients(values);
+  }
+  const handleIngredientChange = (index, event) => {
+    const values = [...foodIngredients];
+    values[index][event.target.name] = event.target.value; // Use 'name' attribute to identify input
+    setFoodIngredients(values);
   };
 
   const removeIngredientField = (index) => {
-      const values = [...foodIngredients];
-      values.splice(index, 1);
-      setFoodIngredients(values);
+    const values = [...foodIngredients];
+    values.splice(index, 1);
+    setFoodIngredients(values);
   };
 
   const addIngredientField = () => {
-      setFoodIngredients([...foodIngredients, { name: '', quantity: '' }]);
+    setFoodIngredients([...foodIngredients, { name: '', quantity: '' }]);
   };
-  const deleteFood=async(e)=>{
-    console.log(props.select._id)
+
+  const deleteFood = async (e) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this food item?");
+    if (!isConfirmed) {
+      return; // Exit if the user clicked "Cancel"
+    }
+    let response = await fetch("http://localhost:9000/api/deleteFood", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: props.select._id })
+    });
+    response = await response.json();
+    if(isConfirmed && response.success){ 
+      navigate("/");
+    }else{
+      alert("Something went wrong");
+    }
   }
-  const updateFood=async(e)=>{
+
+  const updateFood = async (e) => {
     console.log(props.select._id)
+    const isConfirmed = window.confirm("navigate to home");
+    if (isConfirmed) {
+      console.log("confirmed")
+      navigate("/");
+    }else{
+      console.log("not confirmed")
+    }
   }
 
   return (
@@ -121,7 +147,7 @@ export default function AdminView(props) {
         </div>
       </div>
       <button onClick={deleteFood}>Delete {props.select._id}</button>
-      <button onClick={updateFood}>Update {props.select._id}</button>
+      <button onClick={updateFood} >Update {props.select._id}</button>
     </div>
   )
 }

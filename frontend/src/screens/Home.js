@@ -18,7 +18,7 @@ export default function Home() {
 
   const handleCardClick = (food) => {
     console.log(food)
-    setSelectedFood(food);
+    setSelectedFood(food); 
     setIsOverlayOpen(true);
   };
 
@@ -26,7 +26,7 @@ export default function Home() {
     <div>
       {localStorage.getItem("admin") === "false" ?
         <Modal isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(!isOverlayOpen)}><ViewFood select={selectedFood}></ViewFood></Modal>
-        : <Modal isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(!isOverlayOpen)}><AdminView select={selectedFood}></AdminView></Modal>
+        : <Modal isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(!isOverlayOpen)}><AdminView select={selectedFood} onClose={() => setIsOverlayOpen(!isOverlayOpen)}></AdminView></Modal>
       }      <Navbar></Navbar>
       <div>
         <div id="carouselExample" className="carousel slide"  >
