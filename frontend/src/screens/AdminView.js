@@ -63,21 +63,42 @@ export default function AdminView(props, onclose) {
       body: JSON.stringify({ id: props.select._id })
     });
     response = await response.json();
-    if(isConfirmed && response.success){ 
+    if (isConfirmed && response.success) {
       navigate("/");
-    }else{
+    } else {
       alert("Something went wrong");
     }
   }
 
   const updateFood = async (e) => {
-    console.log(props.select._id)
-    const isConfirmed = window.confirm("navigate to home");
-    if (isConfirmed) {
-      console.log("confirmed")
-      navigate("/");
-    }else{
-      console.log("not confirmed")
+    const isConfirmed = window.confirm("Are you sure you want to update this food item?");
+    if (!isConfirmed) return; // Exit if the user clicked "Cancel"
+
+    // Create FormData object to handle both text and file data
+    const formData = new FormData();
+    formData.append("id", props.select._id);
+    formData.append("name", foodName);
+    formData.append("categoryName", foodCat);
+    formData.append("shortDescription", foodSD);
+    formData.append("description", foodD);
+    formData.append("ingredients", JSON.stringify(foodIngredients));
+
+    // Append image if it's a file object
+    if (foodImg instanceof File) {
+      formData.append("image", foodImg);
+    }
+
+    try {
+      const response = await fetch("http://localhost:9000/api/updateFood", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+      console.log(result);
+      // Handle response as needed
+    } catch (error) {
+      console.error("Error updating food:", error);
     }
   }
 

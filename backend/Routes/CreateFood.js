@@ -71,5 +71,40 @@ router.post("/deleteFood", async (req, res) => {
       res.status(500).json({ success: false, message: 'Internal Server Error', error: err.message });
   }
 });
+router.post("/updateFood", upload.single("image"), async (req, res) => {
+  const foodId = req.body.id; // Get the foodId from the request body
+
+  if (!foodId) {
+      return res.status(400).json({ success: false, message: 'Food ID is required.' });
+  }
+
+  try {
+      // Prepare the update object
+      const updateData = {
+          name: req.body.name,
+          categoryName: req.body.categoryName,
+          shortDescription: req.body.shortDescription,
+          description: req.body.description,
+          ingredients: JSON.parse(req.body.ingredients) // Assuming ingredients are sent as a JSON string
+      };
+
+      // Check if a new image was uploaded
+      if (req.file) {
+          updateData.image = req.file.path; // Update the image path if a new image is uploaded
+      }
+
+      // Find the food item by ID and update it
+      const updatedFoodItem = await food.findByIdAndUpdate(foodId, updateData, { new: true });
+
+      if (!updatedFoodItem) {
+          return res.status(404).json({ success: false, message: 'Food item not found.' });
+      }
+
+      res.json({ success: true, message: 'Food item updated successfully.', updatedFoodItem });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, message: 'Internal Server Error', error: err.message });
+  }
+});
 
 module.exports = router;
