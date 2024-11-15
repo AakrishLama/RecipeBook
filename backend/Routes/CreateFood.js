@@ -50,4 +50,26 @@ router.post("/getFood", async (req, res) => {
   }
 })
 
+router.post("/deleteFood", async (req, res) => {
+  const  foodId  = req.body.id; // Get the foodId from the request body
+
+  if (!foodId) {
+      return res.status(400).json({ success: false, message: 'Food ID is required.' });
+  }
+
+  try {
+      // Find the food item by ID and remove it
+      const deletedFoodItem = await food.findByIdAndDelete(foodId);
+
+      if (!deletedFoodItem) {
+          return res.status(404).json({ success: false, message: 'Food item not found.' });
+      }
+
+      res.json({ success: true, message: 'Food item deleted successfully.', deletedFoodItem });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ success: false, message: 'Internal Server Error', error: err.message });
+  }
+});
+
 module.exports = router;
