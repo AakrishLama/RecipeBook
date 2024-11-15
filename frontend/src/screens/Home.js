@@ -7,8 +7,7 @@ import Card from '../component/Card'
 import { useFood } from './FoodContext';
 import ViewFood from './ViewFood';
 import Modal from '../Modal.js';
-
-
+import AdminView from './AdminView';
 export default function Home() {
   const { foodCat, foodItem } = useFood(); // Access food data from context
   const [search, setSearch] = useState("");
@@ -25,8 +24,10 @@ export default function Home() {
 
   return (
     <div>
-      <Modal isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(!isOverlayOpen)}><ViewFood select={selectedFood}></ViewFood></Modal>
-      <Navbar></Navbar>
+      {localStorage.getItem("admin") === "false" ?
+        <Modal isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(!isOverlayOpen)}><ViewFood select={selectedFood}></ViewFood></Modal>
+        : <Modal isOpen={isOverlayOpen} onClose={() => setIsOverlayOpen(!isOverlayOpen)}><AdminView select={selectedFood}></AdminView></Modal>
+      }      <Navbar></Navbar>
       <div>
         <div id="carouselExample" className="carousel slide"  >
           <div className="carousel-inner" style={{ maxHeight: "400px" }} >
