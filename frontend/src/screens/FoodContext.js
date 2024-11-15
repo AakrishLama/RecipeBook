@@ -21,12 +21,16 @@ export const FoodProvider = ({ children }) => {
         setFoodItem(response[1]);
     }
 
+    const addNewFood = (newFood) => {
+      setFoodItem((prev) => [...prev, newFood]); // Update state with new food item
+  };
+  
     useEffect(() => {
         loadData();
     }, []);
 
     return (
-        <FoodContext.Provider value={{ foodCat, foodItem, loadData }}>
+        <FoodContext.Provider value={{ foodCat, foodItem, loadData, addNewFood}}>
             {children}
         </FoodContext.Provider>
     );

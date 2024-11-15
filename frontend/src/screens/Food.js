@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import Navbar from '../component/Navbar'
 import axios from "axios";
+import { useFood } from './FoodContext';
 
 
 export default function Food() {
+  const {  loadData } = useFood();
+
   const [foodName, setFoodName] = useState('');
   const [categoryName, setCategoryName] = useState('');
   const [ingredients, setIngredients] = useState([{ name: '', quantity: '' }]);
@@ -49,11 +52,14 @@ export default function Food() {
     })
 
     try {
-      await axios.post("http://localhost:9000/api/createfood", formData, {
+        const response = await axios.post("http://localhost:9000/api/createfood", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       console.log('Food item submitted successfully');
       showAlert("food added succesfully"); // Show error alert if submission fails
+
+
+      await loadData();
 
       // Clear the form
       setFoodName("");
@@ -63,6 +69,7 @@ export default function Food() {
       setImage(null);
       setOutPic(null);
       setIngredients([{ name: "", quantity: "" }]);
+
 
     } catch (error) {
       console.error("Error submitting food item:", error);

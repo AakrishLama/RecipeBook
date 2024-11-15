@@ -60,7 +60,7 @@ export default function Home() {
       {foodCat.length !== 0 ? foodCat.map((data) => {
         return (
           <div key={data._id} className='row mb-3'>
-            <div className="fs-3 m-3">{data.categoryName}</div>
+            <div className="fs-3 m-3" style={{font:"bold"}}>{data.categoryName}</div>
             <hr />
             {foodItem.length !== 0 ? foodItem.filter((element) => (element.categoryName === data.categoryName) && (element.name.toLowerCase().includes(search.toLowerCase())))
               .map((filterItem) => {
